@@ -27,13 +27,16 @@ const loginUser = async (req,res) => {
 
         const token = createToken(user._id)
         res.json({success:true,token})
+        console.log(token);
+        
+        
     } catch (error) {
         console.log(error);
         res.json({success:false,message:"Error"})
     }
 }
 
-//register user
+// register user
 const registerUser = async (req,res) => {
     const {username,number, email, password} = req.body;
     try{
@@ -65,6 +68,46 @@ const registerUser = async (req,res) => {
         res.json({success:false,message:"Error"})
     }
 }
+
+
+
+// const registerUser = async (req, res) => {
+//   const { username, number, email, password } = req.body;
+//   try {
+//     // check if user already exists
+//     const exists = await userModel.findOne({ email });
+//     if (exists) {
+//       return res.status(400).json({ success: false, message: "User already exists" });
+//     }
+
+//     // validating email format & strong password
+//     if (!validator.isEmail(email)) {
+//       return res.status(400).json({ success: false, message: "Please enter a valid email" });
+//     }
+//     if (password.length < 8) {
+//       return res.status(400).json({ success: false, message: "Please enter a strong password" });
+//     }
+
+//     // hashing user password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
+
+//     // create and save new user
+//     const newUser = new userModel({ username, number, email, password: hashedPassword });
+//     const user = await newUser.save();
+
+//     // create JWT token
+//     const token = createToken(user._id);
+
+//     // respond success
+//     res.status(201).json({ success: true, token });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+
+
 
 const getUserProfile = async (req, res) => {
     try {

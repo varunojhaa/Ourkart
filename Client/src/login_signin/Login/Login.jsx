@@ -4,7 +4,7 @@ import "./Login.css";
 import { useCart } from "../../CartContext";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
+  const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
@@ -14,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
   // const handleSubmit = async (e) => {
@@ -23,29 +23,58 @@ export default function Login() {
   //   // Add your authentication logic here
   // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:8000/api/user/login", { // make sure path matches backend
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await fetch("http://localhost:8000/api/user/login", { // make sure path matches backend
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(formData),
+  //     });
 
-      const data = await res.json();
-      if (res.ok) {
-        alert("Signup successful !");
-        setIsLoggedIn(true);
-        localStorage.setItem('token', data.token); // Save token in localStorage
-        navigate("/Minutespage");
-      } else {
-        alert(data.error || 'Registration Failed');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('An error occurred');
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       alert("Signup successful !");
+  //       setIsLoggedIn(true);
+  //       localStorage.setItem('token', data.token); // Save token in localStorage
+  //       navigate("/Minutespage");
+  //     } else {
+  //       alert(data.error || 'Registration Failed');
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert('An error occurred');
+  //   }
+  // };
+
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("http://localhost:8000/api/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {  // ✅ check this instead of res.ok
+      alert("Signup successful!");
+      setIsLoggedIn(true);
+      localStorage.setItem("token", data.token); // ✅ Save token properly
+      navigate("/Minutespage");
+    } else {
+      alert(data.message || "Registration failed");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("An error occurred");
+  }
+};
+
+
+
 
   return (
     <div className="login-container">
@@ -58,7 +87,7 @@ export default function Login() {
           id="email"
           name="email"
           placeholder="Enter your email"
-          value={formData.email}
+          value={credentials.email}
           onChange={handleChange}
           required
         />
@@ -69,7 +98,7 @@ export default function Login() {
           id="password"
           name="password"
           placeholder="Enter your password"
-          value={formData.password}
+          value={credentials.password}
           onChange={handleChange}
           required
         />

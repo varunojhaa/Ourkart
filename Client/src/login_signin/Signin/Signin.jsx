@@ -9,7 +9,7 @@ export default function Signup() {
   const { setIsLoggedIn } = useCart();
 
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     number: "",
     email: "",
     password: "",
@@ -18,6 +18,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    console.log(e.target.name);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -34,18 +35,22 @@ export default function Signup() {
     try {
       const res = await fetch("http://localhost:8000/api/user/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'token1': "fhfhhhh" },
         body: JSON.stringify(formData),
       });
 
+      console.log(res);
+
       const data = await res.json();
-      if (res.ok) {
+      console.log(data);
+
+      if (data.success) {
         alert("Signup successful !");
         setIsLoggedIn(true);
         localStorage.setItem('token', data.token); // Save token in localStorage
         navigate("/Minutespage");
       } else {
-        alert(data.error || 'Registration Failed');
+        alert(data.message || 'Registration Failed');
       }
     } catch (err) {
       console.error(err);
@@ -62,7 +67,7 @@ export default function Signup() {
         <input
           type="text"
           id="name"
-          name="name"
+          name="username"
           placeholder="Enter your name"
           value={formData.name}
           onChange={handleChange}
@@ -71,7 +76,7 @@ export default function Signup() {
 
         <label htmlFor="number">Phone Number</label>
         <input
-          type="tel"
+          type="text"
           id="number"
           name="number"
           placeholder="Enter your phone number"

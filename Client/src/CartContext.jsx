@@ -5,8 +5,14 @@ import axios from "axios";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+
+
+  const url = "http://localhost:8000"; // Your backend URL
+
+
   const [cartItems, setCartItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -36,6 +42,7 @@ export function CartProvider({ children }) {
           `${url}/api/cart/add`,
           { itemId: product._id || product.id },
           { headers: { token } }
+          // { headers: { Authorization: `Bearer ${token}` } }
         );
       } catch (error) {
         console.error("Error adding item to cart:", error);
@@ -77,9 +84,31 @@ const removeFromCart = async (product) => {
 };
 
 
+  // // Load cart data from the backend
+  // const loadCartData = async () => {
+  //   if (token) {
+  //     try {
+  //       const response = await axios.post(
+  //         `${url}/api/cart/get`,
+  //         {},
+  //         { headers: { token } }
+  //       );
+  //       setCartItems(response.data.cartData);
+  //     } catch (error) {
+  //       console.error("Error loading cart data:", error);
+  //     }
+  //   }
+  // };
+
+
+  //   // Reload cart data on token change
+  // useEffect(() => {
+  //   loadCartData();
+  // }, [token]);
+
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, isLoggedIn, setIsLoggedIn, handleLogout }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, isLoggedIn, setIsLoggedIn, handleLogout, token,setToken}}>
       {children}
     </CartContext.Provider>
   );
