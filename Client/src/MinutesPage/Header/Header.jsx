@@ -22,7 +22,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/MinutesPage" className="logo">
             <img
-              src="src/MinutesPage/fkheaderlogo_minutes_desktop-bc73ae.svg"
+              src="public/MinutesPage/fkheaderlogo_minutes_desktop-bc73ae.svg"
               alt="LOGO"
             />
           </Link>
