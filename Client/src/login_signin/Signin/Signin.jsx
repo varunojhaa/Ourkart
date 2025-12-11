@@ -33,7 +33,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://161.118.178.187:8000/api/user/register", {
+      const res = await fetch("http://hello.zone.id:8000/api/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json", 'token1': "fhfhhhh" },
         body: JSON.stringify(formData),
