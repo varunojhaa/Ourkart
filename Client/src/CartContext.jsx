@@ -7,7 +7,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
 
 
-  const url = "http://localhost:8000"; // Your backend URL
+  const url = "https://ourkart-production.up.railway.app"; // Your backend URL
 
 
   const [cartItems, setCartItems] = useState([]);

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { useCart } from "../../CartContext";
+import Minutes from '../minutes.svg';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/MinutesPage" className="logo">
             <img
-              src="src/MinutesPage/fkheaderlogo_minutes_desktop-bc73ae.svg"
+              src={Minutes}
               alt="LOGO"
             />
           </Link>
