@@ -51,7 +51,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const res = await fetch("http://hello.zone.id:8000/api/user/login", {
+    const res = await fetch("https://ourkart-production.up.railway.app/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
